@@ -1,7 +1,9 @@
 # MIPSTest
 
 #使用前请仔细阅读!!! 
+
 #使用的python版本为3.6
+
 1.需要配合iverilog使用  下载地址:http://bleyer.org/icarus/ 
   并添加一下iverilog的环境变量(比如安装在C:\iverilog, 就将C:\iverilog\bin 添加到环境变量)
   配合上届学长的魔改版mars很好用  下载地址:https://github.com/depctg/Mockingbirds/blob/master/Mars.jar
