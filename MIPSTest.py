@@ -46,7 +46,7 @@ if (len(marsResult) > len(simResult)) or (len(marsResult) < len(simResult)):
 if flag==1:
     for i in range(len(marsResult)):
         if marsResult[i] != simResult[i]:
-            print("we got "+simResult[i]+" when we expected" + marsResult)
+            print("we got "+simResult[i]+" when we expected" + marsResult[i])
             flag = 0
 if flag==1:
     print("AC!")
