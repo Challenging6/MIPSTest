@@ -1,7 +1,6 @@
 import subprocess
 import os
 import re
-import logging
 
 '''
 1.需要配合iverilog使用 下载地址:http://bleyer.org/icarus/ 并添加一下iverilog的环境变量(比如安装在C:\iverilog, 就将C:\iverilog\bin 添加到环境变量) 配合上届学长的升级版mars很好用
