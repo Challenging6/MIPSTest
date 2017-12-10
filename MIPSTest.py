@@ -3,7 +3,7 @@ import os
 import re
 
 
-project_location = "C:\\Users\Challenging\Desktop\p5\\"  # 修改你的project地址(请将该脚本放到project目录下)
+project_location = "D:\Challenging\jizu\p5new\\"  # 修改你的project地址
 mars_location = "C:\\Users\Challenging\Desktop\mars.jar"  # 修改你的mars位置
 asm_location = "C:\\Users\Challenging\Desktop\mips1.asm"  # 修改你的汇编地址
 print("执行汇编.........")
@@ -11,7 +11,7 @@ print("执行汇编.........")
 Result = subprocess.getoutput("java -jar " + mars_location + " db mc CompactDataAtZero nc " + asm_location)
 subprocess.getoutput(
     "java -jar " + mars_location + " db mc CompactDataAtZero  dump .text HexText " + project_location + "code.txt " + asm_location)
-marsResult = Result.strip().split("\n")
+marsResult = re.findall(r".*? <= .{8}?", Result)
 marsResult = [item for item in marsResult if item[0:3] != "$ 0"]
 
 files = os.listdir(project_location)
