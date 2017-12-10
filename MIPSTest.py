@@ -3,22 +3,16 @@ import os
 import re
 
 
-
-
-<<<<<<< HEAD
-
-project_location = "C:\\Users\Challenging\Desktop\p5\\"    #修改你的project地址(注意最后的斜巷不能丢!)
-=======
-project_location = "C:\\Users\Challenging\Desktop\p5\\"      #修改你的project地址(注意最后的斜杠不能丢!)
->>>>>>> 549df1636e70d30099ccf9cf56713a9b36b86b3d
-mars_location = "C:\\Users\Challenging\Desktop\mars.jar"   #修改你的mars位置
-asm_location = "C:\\Users\Challenging\Desktop\mips1.asm"   #修改你的汇编地址
+project_location = "C:\\Users\Challenging\Desktop\p5\\"  # 修改你的project地址(请将该脚本放到project目录下)
+mars_location = "C:\\Users\Challenging\Desktop\mars.jar"  # 修改你的mars位置
+asm_location = "C:\\Users\Challenging\Desktop\mips1.asm"  # 修改你的汇编地址
 print("执行汇编.........")
 
-Result = subprocess.getoutput("java -jar "+ mars_location +" db mc CompactDataAtZero nc "+asm_location)
-subprocess.getoutput("java -jar " + mars_location + " a dump .text HexText "+project_location+"code.txt "+asm_location)
+Result = subprocess.getoutput("java -jar " + mars_location + " db mc CompactDataAtZero nc " + asm_location)
+subprocess.getoutput(
+    "java -jar " + mars_location + " db mc CompactDataAtZero  dump .text HexText " + project_location + "code.txt " + asm_location)
 marsResult = Result.strip().split("\n")
-marsResult = [item for item in marsResult if item[0:3]!="$ 0"]
+marsResult = [item for item in marsResult if item[0:3] != "$ 0"]
 
 files = os.listdir(project_location)
 verilog = [file for file in files if file[-2:] == ".v"]
@@ -26,29 +20,28 @@ verilog = [file for file in files if file[-2:] == ".v"]
 os.chdir(project_location)
 command = "iverilog "
 for file in verilog:
-    command = command +file+" "
+    command = command + file + " "
 
-print("开始仿真:"+command)
+print("开始仿真:" + command)
 subprocess.getoutput(command)
 answer = subprocess.getoutput("vvp a.out")
 
-
 sim = re.findall(r"\d+@.*?: .*?<= .{8}?", answer)
 cycle = re.findall(r"(\d+)@.*?: .*?<= .{8}?", answer)
-for j in range(len(sim)-1):
-    if (cycle[j] == cycle[j+1]) and sim[j]> sim[j+1]:
-        sim[j], sim[j+1] = sim[j+1], sim[j]
+for j in range(len(sim) - 1):
+    if (cycle[j] == cycle[j + 1]) and sim[j] > sim[j + 1]:
+        sim[j], sim[j + 1] = sim[j + 1], sim[j]
 
 simResult = [re.search("\d+@.*?: (.*?<= .{8}?)", item).group(1) for item in sim]
 
-simResult = [item for item in simResult if item[0:3]!="$ 0"]
-sim = [item for item in sim if re.search("\d+@.*?: (.*?) <= .{8}?", item).group(1)!= "$ 0"]
+simResult = [item for item in simResult if item[0:3] != "$ 0"]
+sim = [item for item in sim if re.search("\d+@.*?: (.*?) <= .{8}?", item).group(1) != "$ 0"]
 
 flag = 1
 if (len(marsResult) > len(simResult)) or (len(marsResult) < len(simResult)):
     print("your answer is less or more than we expected")
     for i in range(min(len(simResult), len(marsResult))):
-        print("we got: " + sim[i]+"  when we expected: " + marsResult[i], end="")
+        print("we got: " + sim[i] + "  when we expected: " + marsResult[i], end="")
         if simResult[i] == marsResult[i]:
             print("    ac")
         else:
@@ -56,13 +49,15 @@ if (len(marsResult) > len(simResult)) or (len(marsResult) < len(simResult)):
     print("..........................")
     flag = 0
 
-if flag==1:
+if flag == 1:
     for i in range(len(marsResult)):
         if marsResult[i] != simResult[i]:
-            print("we got: "+sim[i]+" when we expected: " + marsResult[i])
+            print("we got: " + sim[i] + " when we expected: " + marsResult[i])
             flag = 0
-if flag==1:
+if flag == 1:
     print("AC!")
 
 else:
     print("WA!")
+print("\nmarsResult:\n"+"\n".join(marsResult)+"\n")
+print("simulate Result:\n"+"\n".join(sim))
