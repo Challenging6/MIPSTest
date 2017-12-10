@@ -1,12 +1,12 @@
 import subprocess
 import os
 import re
-import logging
 
 
 
 
-project_location = "C:\\Users\Challenging\Desktop\p5\\"      #修改你的project地址(请将该脚本放到project目录下)
+
+project_location = "C:\\Users\Challenging\Desktop\p5\\"    #修改你的project地址(注意最后的斜巷不能丢!)
 mars_location = "C:\\Users\Challenging\Desktop\mars.jar"   #修改你的mars位置
 asm_location = "C:\\Users\Challenging\Desktop\mips1.asm"   #修改你的汇编地址
 print("执行汇编.........")
