@@ -13,6 +13,8 @@ import logging
 3.请将测试脚本放到需要测试的project目录下(因为很多都默认的相对路径)
 
 4.需要在project里包含mips的testbench,需要在initial里包含以下两行: #10000; //表示仿真的时间 $finish; //表示结束仿真,不然不会结束
+
+5.最好不要包含其他无用的.v文件
 '''
 
 
@@ -49,12 +51,13 @@ for j in range(len(sim)-1):
 simResult = [re.search("\d+@.*?: (.*?<= .{8}?)", item).group(1) for item in sim]
 
 simResult = [item for item in simResult if item[0:3]!="$ 0"]
+sim = [item for item in sim if re.search("\d+@.*?: (.*?) <= .{8}?", item).group(1)!= "$ 0"]
 
 flag = 1
 if (len(marsResult) > len(simResult)) or (len(marsResult) < len(simResult)):
     print("your answer is less or more than we expected")
     for i in range(min(len(simResult), len(marsResult))):
-        print("we got: " + result[i]+"  when we expected: " + marsResult[i], end="")
+        print("we got: " + sim[i]+"  when we expected: " + marsResult[i], end="")
         if simResult[i] == marsResult[i]:
             print("    ac")
         else:
@@ -65,7 +68,7 @@ if (len(marsResult) > len(simResult)) or (len(marsResult) < len(simResult)):
 if flag==1:
     for i in range(len(marsResult)):
         if marsResult[i] != simResult[i]:
-            print("we got: "+result[i]+" when we expected: " + marsResult[i])
+            print("we got: "+sim[i]+" when we expected: " + marsResult[i])
             flag = 0
 if flag==1:
     print("AC!")
