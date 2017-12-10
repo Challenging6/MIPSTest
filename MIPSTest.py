@@ -5,8 +5,12 @@ import re
 
 
 
+<<<<<<< HEAD
 
 project_location = "C:\\Users\Challenging\Desktop\p5\\"    #修改你的project地址(注意最后的斜巷不能丢!)
+=======
+project_location = "C:\\Users\Challenging\Desktop\p5\\"      #修改你的project地址(注意最后的斜杠不能丢!)
+>>>>>>> 549df1636e70d30099ccf9cf56713a9b36b86b3d
 mars_location = "C:\\Users\Challenging\Desktop\mars.jar"   #修改你的mars位置
 asm_location = "C:\\Users\Challenging\Desktop\mips1.asm"   #修改你的汇编地址
 print("执行汇编.........")
