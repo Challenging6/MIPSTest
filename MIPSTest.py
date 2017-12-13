@@ -3,14 +3,14 @@ import os
 import re
 
 
-project_location = "D:\Challenging\jizu\p5new\\"          # 修改你的project地址
-mars_location = "C:\\Users\Challenging\Desktop\mars.jar"  # 修改你的mars位置
-asm_location = "C:\\Users\Challenging\Desktop\mips1.asm"  # 修改你的汇编地址
+project_location = "D:\Challenging\jizu\p5new\\"           # 修改你的project地址
+mars_location = "C:\\Users\Challenging\Desktop\mars.jar"   # 修改你的mars位置(注意是魔改版的mars)
+asm_location = "C:\\Users\Challenging\Desktop\mips1.asm"   # 修改你的汇编地址
 print("执行汇编.........")
 
-Result = subprocess.getoutput("java -jar " + mars_location + " db mc CompactDataAtZero nc " + asm_location)
+Result = subprocess.getoutput("java -jar " + mars_location + " 10000 db mc CompactDataAtZero nc " + asm_location)
 subprocess.getoutput(
-    "java -jar " + mars_location + " db mc CompactDataAtZero  dump .text HexText " + project_location + "code.txt " + asm_location)
+    "java -jar " + mars_location + " 10000 db mc CompactDataAtZero  dump .text HexText " + project_location + "code.txt " + asm_location)
 marsResult = re.findall(r".*? <= .{8}?", Result)
 marsResult = [item for item in marsResult if item[0:3] != "$ 0"]
 
@@ -27,9 +27,10 @@ subprocess.getoutput(command)
 answer = subprocess.getoutput("vvp a.out")
 
 sim = re.findall(r"\d+@.*?: .*?<= .{8}?", answer)
+simResult_temp = [re.search("\d+@.*?: (.*?<= .{8}?)", item).group(1) for item in sim]
 cycle = re.findall(r"(\d+)@.*?: .*?<= .{8}?", answer)
 for j in range(len(sim) - 1):
-    if (cycle[j] == cycle[j + 1]) and sim[j] > sim[j + 1]:
+    if (cycle[j] == cycle[j + 1]) and simResult_temp[j][0] == "*" and simResult_temp[j+1][0] == "$":
         sim[j], sim[j + 1] = sim[j + 1], sim[j]
 
 simResult = [re.search("\d+@.*?: (.*?<= .{8}?)", item).group(1) for item in sim]
@@ -59,5 +60,5 @@ if flag == 1:
 
 else:
     print("WA!")
-print("\nmarsResult:\n"+"\n".join(marsResult)+"\n")
-print("simulate Result:\n"+"\n".join(sim))
+print("\nMARS Result:\n"+"\n".join(marsResult)+"\n")
+print("Simulate Result:\n"+"\n".join(sim))
