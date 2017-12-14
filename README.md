@@ -11,8 +11,6 @@
 
   升级版下载地址:https://github.com/depctg/Mockingbirds/blob/master/Mars.jar
   
-3.注意汇编不要写死循环,不然执行不出来(比如给的样例的机器码需要删除最后两行)
-
 
 4.需要在project里包含mips的testbench,需要在initial里包含以下两行:
     #10000;     //表示仿真的时间
