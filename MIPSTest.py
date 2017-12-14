@@ -3,7 +3,7 @@ import os
 import re
 
 
-project_location = "D:\Challenging\jizu\p5new\\"           # 修改你的project地址
+project_location = "D:\\Challenging\jizu\p5new\\"           # 修改你的project地址(注意最后有两个斜杠)
 mars_location = "C:\\Users\Challenging\Desktop\mars.jar"   # 修改你的mars位置(注意是魔改版的mars)
 asm_location = "C:\\Users\Challenging\Desktop\mips1.asm"   # 修改你的汇编地址
 print("执行汇编.........")
