@@ -2,9 +2,9 @@ import subprocess
 import os
 import re
 
-project_location = "D:\\Challenging\jizu\p5new\\"  # 修改你的project地址
+project_location = "C:\\Users\Challenging\Desktop\dd\\"  # 修改你的project地址(注意最后两个斜杠)
 mars_location = "C:\\Users\Challenging\Desktop\mars.jar"  # 修改你的mars位置(注意是魔改版的mars)
-asm_location = "C:\\Users\Challenging\Desktop\mips1.asm"  # 修改你的汇编地址
+asm_location = "C:\\Users\Challenging\Desktop\mips2.asm"  # 修改你的汇编地址
 print("执行汇编.........")
 
 Result = subprocess.getoutput("java -jar " + mars_location + " 10000 db mc CompactDataAtZero nc " + asm_location)
@@ -42,11 +42,70 @@ flag = 1
 if (len(marsResult) > len(simResult)) or (len(marsResult) < len(simResult)):
     print("your answer is less or more than we expected")
     for i in range(min(len(simResult), len(marsResult))):
-        print("we got: " + sim[i] + "  when we expected: " + marsResult[i], end="")
+
         if simResult[i] == marsResult[i]:
+            print("we got: " + sim[i] + "  when we expected: " + marsResult[i], end="")
             print("    ac")
         else:
-            print("    wa")
+            if re.search("^.*? <= .{2}?$", marsResult[i]):
+
+                local = int(re.search("^(.*?) <= .{2}?$", marsResult[i]).group(1)[-1:], 16) % 4
+                if local == 0:
+                    if re.search("^.*? <= (.{2}?)$", marsResult[i]).group(1) != re.search("^.*? <= (.{8}?)$",
+                                                                                          simResult[i]).group(1)[-2:]:
+                        # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-2:])
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i]+"     wa")
+                    else:
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i] + "     ac")
+                elif local == 1:
+                    if re.search("^.*? <= (.{2}?)$", marsResult[i]).group(1) != re.search("^.*? <= (.{8}?)$",
+                                                                                          simResult[i]).group(1)[-4:-2]:
+                        # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-4:-1])
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i]+"     wa")
+                    else:
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i] + "     ac")
+
+                elif local == 2:
+                    if re.search("^.*? <= (.{2}?)$", marsResult[i]).group(1) != re.search("^.*? <= (.{8}?)$",
+                                                                                          simResult[i]).group(1)[-6:-4]:
+                        # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-6:-3])
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i]+"     wa")
+                    else:
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i] + "     ac")
+
+                elif local == 3:
+                    if re.search("^.*? <= (.{2}?)$", marsResult[i]).group(1) != re.search("^.*? <= (.{8}?)$",
+                                                                                          simResult[i]).group(1)[-8:-6]:
+                        # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-8:-5])
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i]+"     wa")
+                    else:
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i] + "     ac")
+
+
+            elif re.search("^.*? <= .{4}?$", marsResult[i]):
+                local = int(re.search("^(.*?) <= .{4}?$", marsResult[i]).group(1)[-1:], 16) % 4
+                if local == 0:
+                    if re.search("^.*? <= (.{4}?)$", marsResult[i]).group(1) != re.search("^.*? <= (.{8}?)$",
+                                                                                          simResult[i]).group(1)[-4:]:
+                        # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-2:])
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i]+"     wa")
+                    else:
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i] + "     ac")
+
+                elif local == 2:
+                    if re.search("^.*? <= (.{4}?)$", marsResult[i]).group(1) != re.search("^.*? <= (.{8}?)$",
+                                                                                          simResult[i]).group(1)[-8:-4]:
+                        # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-6:-3])
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i]+"     wa")
+                    else:
+                        print("we got: " + sim[i] + " when we expected: " + marsResult[i] + "     ac")
+
+                else:
+                    print("sh location error")
+
+            else:
+                print("we got: " + sim[i] + " when we expected: " + marsResult[i]+"     wa")
+
     print("..........................")
     flag = 0
 
@@ -61,21 +120,25 @@ if flag == 1:
                                                                                           simResult[i]).group(1)[-2:]:
                         # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-2:])
                         print("we got: " + sim[i] + " when we expected: " + marsResult[i])
+                        flag = 0
                 elif local == 1:
                     if re.search("^.*? <= (.{2}?)$", marsResult[i]).group(1) != re.search("^.*? <= (.{8}?)$",
                                                                                           simResult[i]).group(1)[-4:-2]:
                         # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-4:-1])
                         print("we got: " + sim[i] + " when we expected: " + marsResult[i])
+                        flag = 0
                 elif local == 2:
                     if re.search("^.*? <= (.{2}?)$", marsResult[i]).group(1) != re.search("^.*? <= (.{8}?)$",
                                                                                           simResult[i]).group(1)[-6:-4]:
                         # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-6:-3])
                         print("we got: " + sim[i] + " when we expected: " + marsResult[i])
+                        flag = 0
                 elif local == 3:
                     if re.search("^.*? <= (.{2}?)$", marsResult[i]).group(1) != re.search("^.*? <= (.{8}?)$",
                                                                                           simResult[i]).group(1)[-8:-6]:
                         # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-8:-5])
                         print("we got: " + sim[i] + " when we expected: " + marsResult[i])
+                        flag = 0
 
             elif re.search("^.*? <= .{4}?$", marsResult[i]):
                 local = int(re.search("^(.*?) <= .{4}?$", marsResult[i]).group(1)[-1:], 16) % 4
@@ -84,11 +147,13 @@ if flag == 1:
                                                                                           simResult[i]).group(1)[-4:]:
                         # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-2:])
                         print("we got: " + sim[i] + " when we expected: " + marsResult[i])
+                        flag = 0
                 elif local == 2:
                     if re.search("^.*? <= (.{4}?)$", marsResult[i]).group(1) != re.search("^.*? <= (.{8}?)$",
                                                                                           simResult[i]).group(1)[-8:-4]:
                         # print(re.search("^.*? <= (.{8}?)$", simResult[i]).group(1)[-6:-3])
                         print("we got: " + sim[i] + " when we expected: " + marsResult[i])
+                        flag = 0
                 else:
                     print("sh location error")
 
